@@ -30,6 +30,7 @@
         const type = urlParams.get('type');
         const userId = urlParams.get('user_id');
         const callback = urlParams.get('callback');
+        const statexx = urlParams.get('state') || ''
 
         // Validate required parameters
         if (!challenge || !type || !callback) {
@@ -91,6 +92,7 @@
                     callbackUrl.searchParams.set('attestationObject', attestationObject);
                     callbackUrl.searchParams.set('clientDataJSON', clientDataJSON);
                     callbackUrl.searchParams.set('authenticatorId', authenticatorId);
+                    callbackUrl.searchParams.set('state', statexx);
                     
                     window.location.href = callbackUrl.toString();
 
@@ -121,6 +123,7 @@
                     callbackUrl.searchParams.set('clientDataJSON', clientDataJSON);
                     callbackUrl.searchParams.set('signature', signature);
                     callbackUrl.searchParams.set('authenticatorId', authenticatorId);
+                    callbackUrl.searchParams.set('state', statexx);
                     
                     window.location.href = callbackUrl.toString();
 
