@@ -60,6 +60,16 @@
                             name: userId,
                             displayName: userId
                         },
+                         pubKeyCredParams: [
+                            {
+                                alg: -7, // ES256
+                                type: 'public-key'
+                            },
+                            {
+                                alg: -257, // RS256
+                                type: 'public-key'
+                            }
+                        ],
                         timeout: 60000,
                         attestation: 'none'
                     };
