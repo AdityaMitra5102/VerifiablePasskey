@@ -107,7 +107,9 @@
                         publicKey: publicKeyCredentialRequestOptions
                     });
 
+                    console.log(credential);
                     const response = credential.response;
+                    console.log(response);
                     const authenticatorData = uint8ArrayToBase64(new Uint8Array(response.authenticatorData));
                     const clientDataJSON = uint8ArrayToBase64(new Uint8Array(response.clientDataJSON));
                     const signature = uint8ArrayToBase64(new Uint8Array(response.signature));
