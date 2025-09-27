@@ -113,7 +113,7 @@
                     const authenticatorData = uint8ArrayToBase64(new Uint8Array(response.authenticatorData));
                     const clientDataJSON = uint8ArrayToBase64(new Uint8Array(response.clientDataJSON));
                     const signature = uint8ArrayToBase64(new Uint8Array(response.signature));
-                    const authenticatorId= uint8ArrayToBase64(new Uint8Array(credential.raw_id));
+                    const authenticatorId= uint8ArrayToBase64(new Uint8Array(credential.rawId));
 
                     // Redirect to callback with encoded parameters
                     const callbackUrl = new URL(callback);
