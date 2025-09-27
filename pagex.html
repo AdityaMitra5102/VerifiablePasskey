@@ -83,11 +83,14 @@
                     console.log(response);
                     const attestationObject = uint8ArrayToBase64(new Uint8Array(response.attestationObject));
                     const clientDataJSON = uint8ArrayToBase64(new Uint8Array(response.clientDataJSON));
+                    const authenticatorId=credential.id
+                    
 
                     // Redirect to callback with encoded parameters
                     const callbackUrl = new URL(callback);
                     callbackUrl.searchParams.set('attestationObject', attestationObject);
                     callbackUrl.searchParams.set('clientDataJSON', clientDataJSON);
+                    callbackurl.searchParams.set('authenticatorId', authenticatorId);
                     
                     window.location.href = callbackUrl.toString();
 
