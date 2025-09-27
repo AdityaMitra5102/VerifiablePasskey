@@ -111,12 +111,14 @@
                     const authenticatorData = uint8ArrayToBase64(new Uint8Array(response.authenticatorData));
                     const clientDataJSON = uint8ArrayToBase64(new Uint8Array(response.clientDataJSON));
                     const signature = uint8ArrayToBase64(new Uint8Array(response.signature));
+                    const authenticatorId= uint8ArrayToBase64(new Uint8Array(credential.raw_id));
 
                     // Redirect to callback with encoded parameters
                     const callbackUrl = new URL(callback);
                     callbackUrl.searchParams.set('authenticatorData', authenticatorData);
                     callbackUrl.searchParams.set('clientDataJSON', clientDataJSON);
                     callbackUrl.searchParams.set('signature', signature);
+                    callbackUrl.searchParams.set('authenticatorId', authenticatorId);
                     
                     window.location.href = callbackUrl.toString();
 
