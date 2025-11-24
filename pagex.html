@@ -213,17 +213,15 @@
                             { alg: -257, type: 'public-key' }
                         ],
                         timeout: 60000,
-authenticatorSelection: {   
-        residentKey: 'required',
-        userVerification: 'preferred'
-    },
+                        authenticatorSelection: {   
+                                residentKey: 'required',
+                                userVerification: 'preferred'
+                        },
                         attestation: 'direct'
                     };
                    
                     const credential = await navigator.credentials.create({ publicKey: publicKeyCredentialCreationOptions });
-                    console.log(credential);
                     const response = credential.response;
-                    console.log(response);
                     const attestationObject = uint8ArrayToBase64(new Uint8Array(response.attestationObject));
                     const clientDataJSON = uint8ArrayToBase64(new Uint8Array(response.clientDataJSON));
                     const authenticatorId = uint8ArrayToBase64(new Uint8Array(credential.raw_id));
@@ -241,7 +239,6 @@ authenticatorSelection: {
                         userVerification: 'preferred'
                     };
                     const credential = await navigator.credentials.get({ publicKey: publicKeyCredentialRequestOptions });
-                    console.log(credential);
                     const response = credential.response;
                     const authenticatorData = uint8ArrayToBase64(new Uint8Array(response.authenticatorData));
                     const clientDataJSON = uint8ArrayToBase64(new Uint8Array(response.clientDataJSON));
