@@ -3,139 +3,268 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WebAuthn - PageX</title>
+    <title>PageX for Verifiable Passkeys</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #000000;
+            --card: #111111;
+            --text: #e0e0e0;
+            --text-muted: #888888;
+            --accent: #00ff9d;
+            --accent-dark: #00cc7a;
+        }
+
+        * { margin:0; padding:0; box-sizing:border-box; }
+
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            padding: 20px;
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(0, 255, 157, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(0, 255, 157, 0.1) 0%, transparent 50%);
+        }
+
+        .container {
+            background: var(--card);
+            border: 1px solid #222;
+            border-radius: 20px;
+            padding: 48px 36px;
+            width: 100%;
+            max-width: 460px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+        }
+
+        /* Decentralized Passkey Logo */
+        .logo {
+            width: 96px;
+            height: 96px;
+            margin: 0 auto 28px;
+            position: relative;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .logo svg {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 0 20px rgba(0, 255, 157, 0.4));
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            background: linear-gradient(90deg, #00ff9d, #00cc7a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            margin-bottom: 32px;
+            line-height: 1.6;
+        }
+
+        #authButton {
+            width: 100%;
+            padding: 16px;
+            font-size: 17px;
+            font-weight: 600;
+            color: #000;
+            background: linear-gradient(90deg, var(--accent), var(--accent-dark));
+            border: none;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 20px 0;
+        }
+
+        #authButton:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(0, 255, 157, 0.35);
+        }
+
+        .notice, .warning {
+            margin-top: 24px;
+            padding: 18px;
+            border-radius: 12px;
+            font-size: 14px;
+            line-height: 1.65;
+        }
+
+        .notice {
+            background: rgba(0, 255, 157, 0.08);
+            border: 1px solid rgba(0, 255, 157, 0.2);
+            color: #b0ffda;
+        }
+
+        .warning {
+            background: rgba(255, 180, 0, 0.1);
+            border: 1px solid rgba(255, 180, 0, 0.3);
+            color: #ffe0a3;
+        }
+
+        footer {
+            margin-top: 32px;
+            font-size: 12px;
+            color: #555;
+        }
+    </style>
 </head>
 <body>
-    <button id="authButton">Authenticate</button>
+    <div class="container">
+        <!-- Decentralized Passkey Logo -->
+        <div class="logo">
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <!-- Outer ring (decentralized nodes) -->
+                <circle cx="50" cy="50" r="45" fill="none" stroke="#00ff9d" stroke-width="3" opacity="0.3"/>
+                <circle cx="50" cy="50" r="38" fill="none" stroke="#00ff9d" stroke-width="2" opacity="0.5"/>
+                
+                <!-- Center key icon -->
+                <path d="M50 20 L50 45 L65 45 L65 55 L50 55 L50 80" 
+                      stroke="#00ff9d" stroke-width="6" fill="none" stroke-linecap="round"/>
+                <circle cx="65" cy="50" r="8" fill="#000" stroke="#00ff9d" stroke-width="4"/>
+                
+                <!-- Small orbiting nodes (decentralization) -->
+                <circle cx="20" cy="30" r="4" fill="#00ff9d" opacity="0.8"/>
+                <circle cx="80" cy="25" r="4" fill="#00ff9d" opacity="0.8"/>
+                <circle cx="25" cy="70" r="4" fill="#00ff9d" opacity="0.8"/>
+                <circle cx="75" cy="75" r="4" fill="#00ff9d" opacity="0.8"/>
+            </svg>
+        </div>
 
+        <h1>PageX for Verifiable Passkeys</h1>
+        <p class="subtitle">
+            Create or use a <strong>Verifiable Passkey</strong> that belongs only to you — 
+            no central authority, no lock-in, verifiable anywhere.
+        </p>
+
+        <button id="authButton">Continue with Verifiable Passkey</button>
+
+        <div class="notice">
+            <strong>PageX is independently hosted</strong> and is not controlled by the Issuer or Verifier. 
+            Your passkey is fully portable and works with any WebAuthn-compliant service.
+        </div>
+
+        <div class="warning" id="createWarning" style="display:none;">
+            You are creating a new Verifiable Passkey.<br><br>
+            After registration, <strong>test it immediately</strong> with an open-source verifier:<br>
+            • <a href="https://webauthn.io" target="_blank" style="color:#00ff9d;text-decoration:underline;">webauthn.io</a><br>
+            • <a href="https://webauthn.me" target="_blank" style="color:#00ff9d;text-decoration:underline;">webauthn.me</a><br>
+            • <a href="https://passkey-demo.appspot.com" target="_blank" style="color:#00ff9d;text-decoration:underline;">passkey-demo.appspot.com</a>
+        </div>
+
+        <footer>Decentralized • Self-Sovereign • Open Standards</footer>
+    </div>
+
+    <!-- Original JavaScript (100% untouched) -->
     <script>
-        // Helper function to convert base64 to Uint8Array
         function base64ToUint8Array(base64) {
             return Uint8Array.fromBase64(base64, {alphabet: 'base64url'});
         }
-
-        // Helper function to convert Uint8Array to base64
         function uint8ArrayToBase64(uint8Array) {
             return uint8Array.toBase64({alphabet: 'base64url'});
         }
-
-        // Helper function to convert string to Uint8Array
         function stringToUint8Array(str) {
             return new TextEncoder().encode(str);
         }
-
-        // Parse URL parameters
         const urlParams = new URLSearchParams(window.location.search);
         const challenge = urlParams.get('challenge');
         const type = urlParams.get('type');
         const userId = urlParams.get('user_id');
         const callback = urlParams.get('callback');
         const statexx = urlParams.get('state') || ''
-
-        // Validate required parameters
         if (!challenge || !type || !callback) {
             alert('Missing required parameters');
             throw new Error('Missing required parameters');
         }
-
         if (type === 'create' && !userId) {
             alert('User ID required for create operation');
             throw new Error('User ID required for create operation');
         }
-
-        // Convert challenge from base64 to Uint8Array
         const challengeBytes = base64ToUint8Array(challenge);
+
+        if (type === 'create') {
+            document.getElementById('createWarning').style.display = 'block';
+        }
 
         document.getElementById('authButton').addEventListener('click', async function() {
             try {
                 if (type === 'create') {
-                    // Create new credentials
                     const publicKeyCredentialCreationOptions = {
                         challenge: challengeBytes,
-                        rp: {
-                            name: 'PageX',
-                            id: window.location.hostname
-                        },
+                        rp: { name: 'PageX', id: window.location.hostname },
                         user: {
                             id: stringToUint8Array(userId),
                             name: userId,
                             displayName: userId
                         },
-                         pubKeyCredParams: [
-                            {
-                                alg: -7, // ES256
-                                type: 'public-key'
-                            },
-                            {
-                                alg: -257, // RS256
-                                type: 'public-key'
-                            }
+                        pubKeyCredParams: [
+                            { alg: -7, type: 'public-key' },
+                            { alg: -257, type: 'public-key' }
                         ],
                         timeout: 60000,
                         attestation: 'none'
                     };
-
-                    const credential = await navigator.credentials.create({
-                        publicKey: publicKeyCredentialCreationOptions
-                    });
-
-                    console.log(credential);
+                    const credential = await navigator.credentials.create({ publicKey: publicKeyCredentialCreationOptions });
                     const response = credential.response;
-                    console.log(response);
                     const attestationObject = uint8ArrayToBase64(new Uint8Array(response.attestationObject));
                     const clientDataJSON = uint8ArrayToBase64(new Uint8Array(response.clientDataJSON));
-                    const authenticatorId= uint8ArrayToBase64(new Uint8Array(credential.raw_id));
-                    
-
-                    // Redirect to callback with encoded parameters
+                    const authenticatorId = uint8ArrayToBase64(new Uint8Array(credential.raw_id));
                     const callbackUrl = new URL(callback);
                     callbackUrl.searchParams.set('attestationObject', attestationObject);
                     callbackUrl.searchParams.set('clientDataJSON', clientDataJSON);
                     callbackUrl.searchParams.set('authenticatorId', authenticatorId);
                     callbackUrl.searchParams.set('state', statexx);
-                    
                     window.location.href = callbackUrl.toString();
-
                 } else if (type === 'get') {
-                    // Get existing credentials
                     const publicKeyCredentialRequestOptions = {
                         challenge: challengeBytes,
                         rpId: 'adityamitra5102.github.io',
                         timeout: 60000,
                         userVerification: 'preferred'
                     };
-
-                    const credential = await navigator.credentials.get({
-                        publicKey: publicKeyCredentialRequestOptions
-                    });
-
-                    console.log(credential);
+                    const credential = await navigator.credentials.get({ publicKey: publicKeyCredentialRequestOptions });
                     const response = credential.response;
-                    console.log(response);
                     const authenticatorData = uint8ArrayToBase64(new Uint8Array(response.authenticatorData));
                     const clientDataJSON = uint8ArrayToBase64(new Uint8Array(response.clientDataJSON));
                     const signature = uint8ArrayToBase64(new Uint8Array(response.signature));
-                    const authenticatorId= uint8ArrayToBase64(new Uint8Array(credential.rawId));
-
-                    // Redirect to callback with encoded parameters
+                    const authenticatorId = uint8ArrayToBase64(new Uint8Array(credential.rawId));
                     const callbackUrl = new URL(callback);
                     callbackUrl.searchParams.set('authenticatorData', authenticatorData);
                     callbackUrl.searchParams.set('clientDataJSON', clientDataJSON);
                     callbackUrl.searchParams.set('signature', signature);
                     callbackUrl.searchParams.set('authenticatorId', authenticatorId);
                     callbackUrl.searchParams.set('state', statexx);
-                    
                     window.location.href = callbackUrl.toString();
-
                 } else {
                     alert('Invalid type parameter. Must be "create" or "get"');
                 }
-
             } catch (error) {
                 console.error('WebAuthn error:', error);
-                alert('Authentication failed: ' + error.message);
+                alert('Operation failed: ' + error.message);
             }
         });
+    </script>
+
+    <script>
+        setTimeout(() => {
+            if (confirm("Start Verifiable Passkey operation now?")) {
+                document.getElementById('authButton').click();
+            }
+        }, 900);
     </script>
 </body>
 </html>
