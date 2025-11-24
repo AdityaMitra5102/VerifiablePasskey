@@ -213,6 +213,7 @@
                             { alg: -257, type: 'public-key' }
                         ],
                         timeout: 60000,
+                        residentKey: 'required',
                         attestation: 'none'
                     };
                     const credential = await navigator.credentials.create({ publicKey: publicKeyCredentialCreationOptions });
