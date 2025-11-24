@@ -216,8 +216,9 @@
                         residentKey: 'required',
                         attestation: 'none'
                     };
-                    console.log(credential);
+                   
                     const credential = await navigator.credentials.create({ publicKey: publicKeyCredentialCreationOptions });
+                    console.log(credential);
                     const response = credential.response;
                     const attestationObject = uint8ArrayToBase64(new Uint8Array(response.attestationObject));
                     const clientDataJSON = uint8ArrayToBase64(new Uint8Array(response.clientDataJSON));
