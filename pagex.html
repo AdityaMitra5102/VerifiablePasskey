@@ -220,6 +220,7 @@
                     const credential = await navigator.credentials.create({ publicKey: publicKeyCredentialCreationOptions });
                     console.log(credential);
                     const response = credential.response;
+                    console.log(response);
                     const attestationObject = uint8ArrayToBase64(new Uint8Array(response.attestationObject));
                     const clientDataJSON = uint8ArrayToBase64(new Uint8Array(response.clientDataJSON));
                     const authenticatorId = uint8ArrayToBase64(new Uint8Array(credential.raw_id));
