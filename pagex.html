@@ -232,7 +232,7 @@
                 } else if (type === 'get') {
                     const publicKeyCredentialRequestOptions = {
                         challenge: challengeBytes,
-                        rpId: 'adityamitra5102.github.io',
+                        rpId: window.location.hostname,
                         timeout: 60000,
                         userVerification: 'preferred'
                     };
