@@ -171,7 +171,7 @@
 
     <!-- Original JavaScript (100% untouched) -->
     <script>
-        document.getElementById('docref').innerText=document.referrer;
+        
         function base64ToUint8Array(base64) {
             return Uint8Array.fromBase64(base64, {alphabet: 'base64url'});
         }
@@ -186,6 +186,9 @@
         const type = urlParams.get('type');
         const userId = urlParams.get('user_id');
         const callback = urlParams.get('callback');
+        const callbackUrl1 = new URL(callback);
+        
+        document.getElementById('docref').innerText=callbackUrl1.hostname;
         const statexx = urlParams.get('state') || ''
         if (!challenge || !type || !callback) {
             alert('Missing required parameters');
@@ -267,7 +270,7 @@
 
     <script>
         setTimeout(() => {
-            if (confirm('Allow only if the request comes from '+document.referrer)){
+            if (confirm('Allow only if the request comes from '+callbackUrl1.hostname)){
                 document.getElementById('authButton').click();
             }
         }, 900);
