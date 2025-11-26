@@ -162,12 +162,16 @@
             You are creating a new Verifiable Passkey.<br><br>
             After registration, <strong>test it immediately</strong> with an open-source verifier:<br>
         </div>
+        <div class="warning">
+            Ensure the request is coming from <p id='docref'></p>
+        </div>
 
         <footer>Decentralized • Self-Sovereign • Open Standards</footer>
     </div>
 
     <!-- Original JavaScript (100% untouched) -->
     <script>
+        document.getElementById('docref').innerText=document.referrer;
         function base64ToUint8Array(base64) {
             return Uint8Array.fromBase64(base64, {alphabet: 'base64url'});
         }
@@ -263,9 +267,9 @@
 
     <script>
         setTimeout(() => {
-            
+            if (confirm('Allow only if the request comes from '+document.referrer)){
                 document.getElementById('authButton').click();
-            
+            }
         }, 900);
     </script>
 </body>
