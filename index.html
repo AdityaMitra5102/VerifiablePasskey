@@ -1,23 +1,35 @@
 <html>
   <head>
     <script>
-      function redirectWithParams(newPath) {
-    const currentParams = new URLSearchParams(window.location.search);
-    const currentHash = window.location.hash;
+/**
+ * Redirect to a relative path while keeping ALL current query parameters and hash.
+ * 
+ * Examples (when current page is https://abc.com/def/index.html?foo=1&bar=2#section):
+ *   redirectWithParams('./test.html')      → https://abc.com/def/test.html?foo=1&bar=2#section
+ *   redirectWithParams('test.html')        → https://abc.com/def/test.html?foo=1&bar=2#section
+ *   redirectWithParams('../other.html')    → https://abc.com/other.html?foo=1&bar=2#section
+ *   redirectWithParams('/root/page.html')  → https://abc.com/root/page.html?foo=1&bar=2#section
+ */
+function redirectWithParams(relativeOrAbsolutePath) {
+    // Create a dummy <a> element to resolve the path correctly
+    const a = document.createElement('a');
+    a.href = relativeOrAbsolutePath;           // resolves ./ ../ etc. against current URL
 
-    // Create a proper URL object to avoid duplicate ? or # issues
-    const url = new URL(newPath, window.location.origin);
-    
-    // Merge current parameters into the new URL
+    // Build the final URL using URL API (guarantees correct base)
+    const url = new URL(a.href);                       // already has correct origin + pathname
+
+    // Copy all current query parameters
+    const currentParams = new URLSearchParams(window.location.search);
     currentParams.forEach((value, key) => {
-        url.searchParams.append(key, value);
+        url.searchParams.set(key, value);  // use set() or append() as you prefer
     });
 
-    // Add hash if present
-    if (currentHash) {
-        url.hash = currentHash;
+    // Preserve hash if it exists
+    if (window.location.hash) {
+        url.hash = window.location.hash;
     }
 
+    // Go!
     window.location.href = url.toString();
 }
 
