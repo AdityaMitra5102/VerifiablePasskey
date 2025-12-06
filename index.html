@@ -1,0 +1,28 @@
+<html>
+  <head>
+    <script>
+      function redirectWithParams(newPath) {
+    const currentParams = new URLSearchParams(window.location.search);
+    const currentHash = window.location.hash;
+
+    // Create a proper URL object to avoid duplicate ? or # issues
+    const url = new URL(newPath, window.location.origin);
+    
+    // Merge current parameters into the new URL
+    currentParams.forEach((value, key) => {
+        url.searchParams.append(key, value);
+    });
+
+    // Add hash if present
+    if (currentHash) {
+        url.hash = currentHash;
+    }
+
+    window.location.href = url.toString();
+}
+
+// Usage
+redirectWithParams('./pagex.html');
+    </script>
+  </head>
+</html>
