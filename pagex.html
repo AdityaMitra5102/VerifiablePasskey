@@ -225,11 +225,11 @@
                     const response = credential.response;
                     const attestationObject = uint8ArrayToBase64(new Uint8Array(response.attestationObject));
                     const clientDataJSON = uint8ArrayToBase64(new Uint8Array(response.clientDataJSON));
-                    const authenticatorId = uint8ArrayToBase64(new Uint8Array(credential.raw_id));
+                    const credentialId = uint8ArrayToBase64(new Uint8Array(credential.raw_id));
                     const callbackUrl = new URL(callback);
                     callbackUrl.searchParams.set('attestationObject', attestationObject);
                     callbackUrl.searchParams.set('clientDataJSON', clientDataJSON);
-                    callbackUrl.searchParams.set('authenticatorId', authenticatorId);
+                    callbackUrl.searchParams.set('credentialId', credentialId);
                     callbackUrl.searchParams.set('state', statexx);
                     window.location.href = callbackUrl.toString();
                 } else if (type === 'get') {
@@ -244,12 +244,12 @@
                     const authenticatorData = uint8ArrayToBase64(new Uint8Array(response.authenticatorData));
                     const clientDataJSON = uint8ArrayToBase64(new Uint8Array(response.clientDataJSON));
                     const signature = uint8ArrayToBase64(new Uint8Array(response.signature));
-                    const authenticatorId = uint8ArrayToBase64(new Uint8Array(credential.rawId));
+                    const credentialId = uint8ArrayToBase64(new Uint8Array(credential.rawId));
                     const callbackUrl = new URL(callback);
                     callbackUrl.searchParams.set('authenticatorData', authenticatorData);
                     callbackUrl.searchParams.set('clientDataJSON', clientDataJSON);
                     callbackUrl.searchParams.set('signature', signature);
-                    callbackUrl.searchParams.set('authenticatorId', authenticatorId);
+                    callbackUrl.searchParams.set('credentialId', credentialId);
                     callbackUrl.searchParams.set('state', statexx);
                     window.location.href = callbackUrl.toString();
                 } else {
