@@ -211,7 +211,6 @@
         }
             try {
                 if (type === 'create') {
-                	userId= docref+" - "+userId;
                     const publicKeyCredentialCreationOptions = {
                         challenge: challengeBytes,
                         rp: { name: 'PageX', id: window.location.hostname },
