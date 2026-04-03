@@ -175,6 +175,12 @@
         function stringToUint8Array(str) {
             return new TextEncoder().encode(str);
         }
+
+        async function checkFirst32BytesIsSha256(uint8Array, hostname) {
+        const hash = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(hostname));
+        return uint8Array.slice(0, 32).every((b, i) => b === new Uint8Array(hash)[i]);
+        }
+        
         const urlParams = new URLSearchParams(window.location.search);
         const challenge = urlParams.get('challenge');
         const type = urlParams.get('type');
@@ -209,6 +215,11 @@
         	alert('Referer and callback hostname mismatch'); 
         	return; 
         }
+            if (!await checkFirst32BytesIsSha256(uint8Array, hostname)) 
+            { 
+                alert('Fatal: Possible MITM. Callback URL hash doesnt match what is in challenge'); 
+                return; 
+            }
             try {
                 if (type === 'create') {
                     const publicKeyCredentialCreationOptions = {
