@@ -178,11 +178,13 @@
         const urlParams = new URLSearchParams(window.location.search);
         const challenge = urlParams.get('challenge');
         const type = urlParams.get('type');
-        const userId = urlParams.get('user_id');
+        var userId = urlParams.get('user_id');
         const callback = urlParams.get('callback');
         const callbackUrl1 = new URL(callback);
         
-        document.getElementById('docref').innerText=callbackUrl1.hostname;
+        const docref=callbackUrl1.hostname;
+        
+        document.getElementById('docref').innerText=docref;
         const statexx = urlParams.get('state') || ''
         if (!challenge || !type || !callback) {
             alert('Missing required parameters');
@@ -199,8 +201,14 @@
         }
 
         document.getElementById('authButton').addEventListener('click', async function() {
+        if (new URL(document.referrer).hostname !== docref) 
+        { 
+        	alert('Referer and callback hostname mismatch'); 
+        	return; 
+        }
             try {
                 if (type === 'create') {
+                	userId= docref+" - "+userId;
                     const publicKeyCredentialCreationOptions = {
                         challenge: challengeBytes,
                         rp: { name: 'PageX', id: window.location.hostname },
