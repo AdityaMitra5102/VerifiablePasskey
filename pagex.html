@@ -201,8 +201,11 @@
         }
 
         document.getElementById('authButton').addEventListener('click', async function() {
-        if (new URL(document.referrer).hostname !== docref) 
+        const refererhost=new URL(document.referrer).hostname;
+        if (refererhost !== docref) 
         { 
+            console.log(docref);
+            console.log(refererhost);
         	alert('Referer and callback hostname mismatch'); 
         	return; 
         }
