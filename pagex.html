@@ -215,7 +215,7 @@
         	alert('Referer and callback hostname mismatch'); 
         	return; 
         }
-            if (!await checkFirst32BytesIsSha256(uint8Array, hostname)) 
+            if (!await checkFirst32BytesIsSha256(challengeBytes, docref)) 
             { 
                 alert('Fatal: Possible MITM. Callback URL hash doesnt match what is in challenge'); 
                 return; 
